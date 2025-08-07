@@ -17,10 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from commons.views import HomePage
+from commons.views import HomePage, RegisterView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePage.as_view(), name='home'),
     path('games/', include('games.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('register/', RegisterView.as_view(), name='register'),
+    path('', include('profiles.urls')),
 ]

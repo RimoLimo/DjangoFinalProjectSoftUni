@@ -1,4 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-    gamelist
+  <div class="max-w-4xl mx-auto mt-8">
+    <h1 class="text-3xl font-bold mb-4">Games</h1>
+    <a href="{% url 'game-form' %}" class="bg-blue-500 text-white px-4 py-2 rounded">Add New Game</a>
+    <ul class="mt-4 space-y-4">
+      {% for game in games %}
+        <li class="border p-4 rounded">
+          <h2 class="text-xl font-semibold">
+            <a href="{% url 'game-detail' game.pk %}">{{ game.title }}</a>
+          </h2>
+          <p>{{ game.genre }}</p>
+        </li>
+      {% empty %}
+        <li>No games yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
 {% endblock %}

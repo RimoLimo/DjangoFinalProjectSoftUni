@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-6 rounded shadow mt-6">
+  <h2 class="text-2xl font-semibold mb-4 text-center">My Profile</h2>
+  {% if user.profile.avatar %}
+      <img src="{{ user.profile.avatar }}" class="w-32 h-32 rounded-full mx-auto mb-4" alt="Avatar">
+  {% endif %}
+  <p><strong>Username:</strong> {{ user.username }}</p>
+  <p><strong>Bio:</strong> {{ user.profile.bio }}</p>
+  <p><strong>Birth Date:</strong> {{ user.profile.birth_date }}</p>
+    <a href="{% url 'profile-edit' %}" class="mt-4 inline-block text-blue-600 hover:underline">Edit Profile</a>
+    <a href="{% url 'profile-delete' %}"
+        class="inline-block px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md transition-colors duration-300">
+        Delete Profile
+    </a>
+</div>
+{% endblock %}

@@ -1,4 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-    reviewdetail
+  <h2 class="text-xl font-bold">{{ review.title }}</h2>
+  <p>By {{ review.user.username }} on {{ review.created_at|date:"Y-m-d" }}</p>
+  <p><strong>Rating:</strong> {{ review.rating }}/10</p>
+  <p>{{ review.content }}</p>
+
+  {% if user == review.user %}
+    <a href="{% url 'review-edit' review.pk %}" class="text-blue-500 hover:underline">Edit</a> |
+    <a href="{% url 'review-delete' review.pk %}" class="text-red-500 hover:underline">Delete</a>
+  {% endif %}
 {% endblock %}

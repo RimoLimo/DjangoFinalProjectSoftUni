@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+
+from commons.models import Review
 from .models import Game, Genre
 from .forms import GameForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -13,6 +15,12 @@ class GameListView(ListView):
 class GameDetailView(DetailView):
     model = Game
     template_name = 'game_detail.html'
+    context_object_name = 'game'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['reviews'] = Review.objects.filter(game=self.object).order_by('-created_at')
+        return context
 
 class GameCreateView(LoginRequiredMixin, CreateView):
     model = Game

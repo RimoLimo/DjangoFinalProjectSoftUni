@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Select a Game to Review</h1>
+  <ul>
+    {% for game in games %}
+      <li>
+        <a href="{% url 'review-add' %}?game={{ game.id }}">{{ game.title }}</a>
+      </li>
+    {% empty %}
+      <li>No games available.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

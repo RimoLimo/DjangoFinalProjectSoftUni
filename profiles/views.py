@@ -1,5 +1,7 @@
+
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, UpdateView, DeleteView
@@ -36,13 +38,11 @@ class ProfileDeleteView(LoginRequiredMixin, DeleteView):
     def get_object(self, queryset=None):
         return Profile.objects.get(user=self.request.user)
 
-    def delete(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         user = request.user
-        response = super().delete(request, *args, **kwargs)  # deletes profile
-        print("Profile deleted, now deleting user...")
-        user.delete()  # this should delete the user
-        logout(request)  # log out user
-        print("User deleted and logged out")
-        return response
+        user.delete()
+        return HttpResponseRedirect(self.success_url)
+
+
 
 print("ProfileDeleteView loaded")

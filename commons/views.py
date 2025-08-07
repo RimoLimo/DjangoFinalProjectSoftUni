@@ -9,9 +9,6 @@ from commons.models import Review
 from games.models import Game
 
 
-# from common.utils import get_organizer
-
-
 # Create your views here.
 class HomePage(TemplateView):
     template_name = 'home.html'

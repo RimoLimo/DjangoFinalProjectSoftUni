@@ -1,14 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Select a Game to Review</h1>
-  <ul>
+<div class="max-w-lg mx-auto mt-10 px-4 sm:px-0">
+  <h1 class="text-3xl font-bold mb-6 text-gray-900 text-center">Select a Game to Review</h1>
+
+  <ul class="space-y-4">
     {% for game in games %}
-      <li>
-        <a href="{% url 'review-add' %}?game={{ game.id }}">{{ game.title }}</a>
+      <li class="p-4 border rounded-lg shadow-sm bg-white hover:shadow-md transition">
+        <a href="{% url 'review-add' %}?game={{ game.id }}" class="text-blue-600 hover:underline text-lg font-semibold">
+          {{ game.title }}
+        </a>
       </li>
     {% empty %}
-      <li>No games available.</li>
+      <li class="text-center text-gray-500 py-10">No games available.</li>
     {% endfor %}
   </ul>
+</div>
 {% endblock %}

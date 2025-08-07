@@ -56,7 +56,8 @@ class ReviewUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'review_form.html'
 
     def test_func(self):
-        return self.get_object().user == self.request.user
+        review = self.get_object()
+        return self.request.user == review.user or self.request.user.is_superuser
 
     def get_success_url(self):
         return reverse_lazy('review-detail', kwargs={'pk': self.object.pk})
@@ -66,7 +67,8 @@ class ReviewDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = 'review_delete.html'
 
     def test_func(self):
-        return self.get_object().user == self.request.user
+        review = self.get_object()
+        return self.request.user == review.user or self.request.user.is_superuser
 
     def get_success_url(self):
         return reverse_lazy('game-list')

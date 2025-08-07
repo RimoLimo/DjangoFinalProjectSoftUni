@@ -3,45 +3,67 @@
 <html lang="en">
 <head>
     <title>Django Tailwind</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     {% tailwind_css %}
 </head>
 
-<body class="bg-gray-50 text-black font-serif leading-normal tracking-normal">
+<body class="bg-gray-50 text-black font-serif leading-normal tracking-normal min-h-screen flex flex-col">
 
 <nav class="bg-white shadow">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-        <a href="{% url 'home' %}" class="text-xl font-bold text-blue-600">🎮 GameList</a>
-        <div class="space-x-4">
-            <a href="{% url 'game-list' %}" class="text-gray-700 hover:text-blue-500">Games</a>
-            <a href="{% url 'genre-list' %}" class="text-gray-700 hover:text-blue-500">Genres</a>
-            {% if user.is_authenticated %}
-                <a href="{% url 'select-game-for-review' %}" class="btn btn-primary">
-                    Create Review
-                </a>
+  <div class="container mx-auto px-4 py-4 flex flex-wrap justify-between items-center">
+    <a href="{% url 'home' %}" class="text-xl font-bold text-blue-600 hover:text-blue-700 transition">
+      🎮 GameList
+    </a>
+    <div class="flex flex-wrap space-x-6 items-center mt-2 sm:mt-0">
 
-                <a href="{% url 'profile-detail'%}" class="text-gray-700 hover:text-blue-500">Profile</a>
-                <form method="post" action="{% url 'logout' %}" class="inline">
-                      {% csrf_token %}
-                      <button type="submit" class="text-blue-600 hover:underline bg-transparent border-none p-0 cursor-pointer">
-                        Logout
-                      </button>
-                </form>
-            {% else %}
-                <a href="{% url 'login' %}" class="text-gray-700 hover:text-blue-500">Login</a>
-                <a href="{% url 'register' %}" class="text-gray-700 hover:text-blue-500">Register</a>
-            {% endif %}
-        </div>
+      <a href="{% url 'game-list' %}"
+         class="text-gray-900 font-semibold border-b-2 border-transparent hover:text-blue-600 hover:border-blue-600 transition pb-1">
+         Games
+      </a>
+      <a href="{% url 'genre-list' %}"
+         class="text-gray-900 font-semibold border-b-2 border-transparent hover:text-blue-600 hover:border-blue-600 transition pb-1">
+         Genres
+      </a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'select-game-for-review' %}"
+           class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+           Create Review
+        </a>
+        <a href="{% url 'profile-detail'%}"
+           class="text-gray-900 font-semibold border-b-2 border-transparent hover:text-blue-600 hover:border-blue-600 transition pb-1">
+           Profile
+        </a>
+        <form method="post" action="{% url 'logout' %}" class="inline ml-2">
+        {% csrf_token %}
+            <button type="submit"
+              class="text-gray-900 font-semibold border border-gray-300 rounded hover:text-blue-600 hover:border-blue-600 transition px-2 pb-1 bg-transparent p-0 cursor-pointer">
+            Logout
+            </button>
+        </form>
+
+      {% else %}
+        <a href="{% url 'login' %}"
+           class="text-gray-900 font-semibold border-b-2 border-transparent hover:text-blue-600 hover:border-blue-600 transition pb-1">
+           Login
+        </a>
+        <a href="{% url 'register' %}"
+           class="text-gray-900 font-semibold border-b-2 border-transparent hover:text-blue-600 hover:border-blue-600 transition pb-1">
+           Register
+        </a>
+      {% endif %}
     </div>
+  </div>
 </nav>
 
-<div class="container mx-auto mt-8">
+<main class="container mx-auto mt-8 px-4 sm:px-6 lg:px-8 flex-grow">
     {% block content %}{% endblock %}
-</div>
+</main>
+
+<footer class="bg-white shadow mt-12 py-4 text-center text-gray-500 text-sm">
+    &copy; {{ now|date:"Y" }} GameList. All rights reserved.
+</footer>
 
 </body>
-
 </html>

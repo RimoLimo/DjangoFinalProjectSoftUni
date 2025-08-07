@@ -1,14 +1,39 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1 class="text-2xl font-bold mb-4">Genres</h1>
-  <ul class="list-disc pl-5">
+  <h1 class="text-3xl font-extrabold mb-6 text-blue-700">Genres</h1>
+
+  {% if user.is_staff or user.is_superuser %}
+    <form method="post" action="{% url 'genre-add' %}" class="mb-8 flex space-x-3 max-w-md">
+      {% csrf_token %}
+      <input type="text" name="name" placeholder="New genre" required
+             class="flex-grow border border-gray-300 rounded px-4 py-2 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition font-semibold">
+        Add
+      </button>
+    </form>
+  {% endif %}
+
+  <ul class="list-disc pl-6 max-w-md space-y-3">
     {% for genre in genres %}
-      <li class="mb-2">
-        {{ genre.name }}
+      <li class="flex justify-between items-center border-1 border-black-400 rounded-lg px-4 py-3 hover:shadow-md transition">
+
+        <a href="{% url 'genre-detail' genre.pk %}" class="text-xl font-semibold text-blue-600 hover:underline">
+          {{ genre.name }}
+        </a>
+
+        {% if user.is_superuser %}
+          <form method="post" action="{% url 'genre-delete' genre.pk %}" class="inline">
+            {% csrf_token %}
+            <button type="submit"
+                    class="text-red-600 hover:text-red-800 transition text-base font-medium hover:underline">
+              Delete
+            </button>
+          </form>
+        {% endif %}
       </li>
     {% empty %}
-      <li>No genres available.</li>
+      <li class="text-gray-500 italic">No genres available.</li>
     {% endfor %}
   </ul>
 {% endblock %}

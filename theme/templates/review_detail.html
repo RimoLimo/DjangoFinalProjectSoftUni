@@ -1,12 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h2 class="text-xl font-bold">{{ review.title }}</h2>
-  <p>By {{ review.user.username }} on {{ review.created_at|date:"Y-m-d" }}</p>
-  <p><strong>Rating:</strong> {{ review.rating }}/10</p>
-  <p>{{ review.content }}</p>
+<div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md mt-10">
+  <h2 class="text-3xl font-bold mb-4 text-blue-700">{{ review.title }}</h2>
+  <p class="text-gray-600 mb-2">
+    By <span class="font-semibold">{{ review.user.username }}</span> on {{ review.created_at|date:"F j, Y" }}
+  </p>
+
+  <p class="mb-4">
+    <strong>Game:</strong>
+    <a href="{% url 'game-detail' review.game.pk %}" class="text-blue-600 hover:underline font-semibold">
+      {{ review.game.title }}
+    </a>
+  </p>
+
+  <p class="mb-4"><strong>Rating:</strong> <span class="text-yellow-500 font-semibold">{{ review.rating }}/10</span></p>
+
+  <div class="mb-6 whitespace-pre-wrap text-gray-800">{{ review.content }}</div>
 
   {% if user == review.user %}
-    <a href="{% url 'review-edit' review.pk %}" class="text-blue-500 hover:underline">Edit</a> |
-    <a href="{% url 'review-delete' review.pk %}" class="text-red-500 hover:underline">Delete</a>
+    <div class="flex space-x-4">
+      <a href="{% url 'review-edit' review.pk %}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+        Edit
+      </a>
+      <a href="{% url 'review-delete' review.pk %}" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition">
+        Delete
+      </a>
+    </div>
   {% endif %}
+</div>
 {% endblock %}

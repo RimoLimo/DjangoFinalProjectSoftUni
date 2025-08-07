@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="max-w-4xl mx-auto mt-8">
+    <h1 class="text-3xl font-bold mb-6">Genre: {{ genre.name }}</h1>
+
+    {% if games %}
+      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {% for game in games %}
+          <li class="border p-4 rounded shadow bg-white">
+            <h2 class="text-xl font-semibold">
+              <a href="{% url 'game-detail' game.pk %}" class="text-blue-600 hover:underline">
+                {{ game.title }}
+              </a>
+            </h2>
+            <p class="text-gray-600">{{ game.description|truncatewords:20 }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-gray-600">No games found in this genre.</p>
+    {% endif %}
+  </div>
+{% endblock %}

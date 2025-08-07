@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from commons.models import Review
@@ -49,7 +50,37 @@ class GameDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         return self.request.user.is_superuser
 
+
+
 class GenreListView(ListView):
     model = Genre
-    template_name = 'genre_list.html'  # template file
-    context_object_name = 'genres'
+    template_name = "genre_list.html"
+    context_object_name = "genres"
+
+class GenreAddView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.is_staff or self.request.user.is_superuser
+
+    def post(self, request):
+        name = request.POST.get("name")
+        if name:
+            Genre.objects.get_or_create(name=name)
+        return redirect("genre-list")
+
+class GenreDeleteView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def post(self, request, pk):
+        Genre.objects.filter(pk=pk).delete()
+        return redirect("genre-list")
+
+class GenreDetailView(DetailView):
+    model = Genre
+    template_name = 'genre_detail.html'
+    context_object_name = 'genre'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['games'] = self.object.games.all()
+        return context

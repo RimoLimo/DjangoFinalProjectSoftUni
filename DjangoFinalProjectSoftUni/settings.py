@@ -97,8 +97,8 @@ DATABASES = {
         'NAME': config('DB_NAME'),
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),
-        'HOST': 'https://gamelistproject1-buc8hbc2haeed3e9.uksouth-01.azurewebsites.net/',
-        'PORT': '5432',
+        'HOST': 'DB_HOST',
+        'PORT': 'DB_PORT',
     }
 }
 

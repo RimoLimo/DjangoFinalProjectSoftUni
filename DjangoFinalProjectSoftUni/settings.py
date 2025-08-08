@@ -98,7 +98,7 @@ DATABASES = {
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': 'DB_HOST',
-        'PORT': 'DB_PORT',
+        'PORT': int(os.getenv('DB_PORT', '5432')),
     }
 }
 
